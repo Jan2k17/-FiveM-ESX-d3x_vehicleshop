@@ -4,6 +4,7 @@
 ++ amount of avalible vehicles to buy
 
 
+
 ## Requirements
 
 Auto mode (everyone can buy vehicles from the dealer)

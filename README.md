@@ -1,5 +1,9 @@
 # d3x_vehicleshop
 
+## Added by ME
+++ amount of avalible vehicles to buy
+
+
 ## Requirements
 
 Auto mode (everyone can buy vehicles from the dealer)

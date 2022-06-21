@@ -123,7 +123,6 @@ RegisterNUICallback('BuyVehicle', function(data, cb)
 		exports['mythic_notify']:PersistentHudText('END','waiting')
 		
 		if hasEnoughMoney then
-			
 			ESX.Game.SpawnVehicle(model, Config.Zones.ShopOutside.Pos, Config.Zones.ShopOutside.Heading, function (vehicle)
 				TaskWarpPedIntoVehicle(playerPed, vehicle, -1)
 				
@@ -143,10 +142,12 @@ RegisterNUICallback('BuyVehicle', function(data, cb)
 				
 				ESX.ShowNotification(_U('vehicle_purchased'))
 				TriggerServerEvent('skm_carkeys:createKey', newPlate)
+				
+				TriggerServerEvent('d3x_vehicleshop:updateAllSorage')
 			end)
-			
 		else
-			ESX.ShowNotification(_U('not_enough_money'))
+			--ESX.ShowNotification(_U('not_enough_money'))
+			ESX.ShowNotification('Du hast nicht genug Geld oder das Fahrzeug ist nicht auf Lager!')
 		end
 		
 	end, model)
@@ -177,7 +178,7 @@ function OpenShopMenu()
 			cars = Vehicles,
 			categories = Categories
         })
-		print(json.decode(Vehicles))
+		print(json.encode(Vehicles))
 	end
 
 end

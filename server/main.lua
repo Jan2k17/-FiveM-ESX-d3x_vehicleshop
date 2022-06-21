@@ -43,6 +43,37 @@ MySQL.ready(function()
 	TriggerClientEvent('d3x_vehicleshop:sendVehicles', -1, Vehicles)
 end)
 
+function ClearTable()
+	for k in pairs (Vehicles) do
+		Vehicles [k] = nil
+	end
+end
+
+RegisterServerEvent('d3x_vehicleshop:updateAllSorage')
+AddEventHandler('d3x_vehicleshop:updateAllSorage', function()
+	ClearTable()
+	
+	Categories     = MySQL.Sync.fetchAll('SELECT * FROM vehicle_categories')
+	local vehicles = MySQL.Sync.fetchAll('SELECT * FROM vehicles')
+	
+	for i=1, #vehicles, 1 do
+		local vehicle = vehicles[i]
+		
+		for j=1, #Categories, 1 do
+			if Categories[j].name == vehicle.category then
+				vehicle.categoryLabel = Categories[j].label
+				break
+			end
+		end
+		
+		table.insert(Vehicles, vehicle)
+	end
+	
+	-- send information after db has loaded, making sure everyone gets vehicle information
+	TriggerClientEvent('d3x_vehicleshop:sendCategories', -1, Categories)
+	TriggerClientEvent('d3x_vehicleshop:sendVehicles', -1, Vehicles)
+end)
+
 RegisterServerEvent('d3x_vehicleshop:setVehicleOwned')
 AddEventHandler('d3x_vehicleshop:setVehicleOwned', function (vehicleProps)
 	local _source = source
@@ -133,6 +164,7 @@ ESX.RegisterServerCallback('d3x_vehicleshop:buyVehicle', function (source, cb, v
 					end)
 					
 					xPlayer.removeMoney(vehicleData.price)
+					cb(true)
 				else
 					cb(false)
 				end
@@ -147,7 +179,7 @@ ESX.RegisterServerCallback('d3x_vehicleshop:buyVehicle', function (source, cb, v
 			['@nstorage'] = '2',
 		}, function (rowsChanged)]]
 		
-		cb(true)
+		--cb(true)
 	else if bankMoney >= vehicleData.price then
 		--xPlayer.setAccountMoney('bank',bankMoney-vehicleData.price)
 		--print(xPlayer.getAccount('bank').money)

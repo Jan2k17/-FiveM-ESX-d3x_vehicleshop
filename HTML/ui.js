@@ -51,7 +51,7 @@ $(document).ready(function(){
                                     </div>
                                     <div class="card-footer bg-white border-0 ">
                                         <button type="button" id="action1" data-value="buy" data-model="`+ car.model +`" class="btn btn-danger w-auto btn-lg buy">Kaufen</button>
-                                        <button type="button" id="action2" data-value="test-drive" data-model="`+ car.model +`" class="btn btn-success w-auto float-right btn-lg test-drive">Probefahrt</button>
+                                        <!--<button type="button" id="action2" data-value="test-drive" data-model="`+ car.model +`" class="btn btn-success w-auto float-right btn-lg test-drive">Probefahrt</button>-->
                                     </div>
                                 </div>
                             </div>`
@@ -80,7 +80,7 @@ $(document).ready(function(){
         $("#wrapper").html('');
         
         if($(this).data('value') == "buy")
-            $.post('http://d3x_vehicleshop/BuyVehicle', JSON.stringify({model: $(this).data('model')}));
+            $.post('http://d3x_vehicleshop/BuyVehicle', JSON.stringify({model: $(this).data('model'), storage: $(this).data('storage')}));
         else if($(this).data('value') == "test-drive")
             $.post('http://d3x_vehicleshop/TestDrive', JSON.stringify({model: $(this).data('model')}));
     });
